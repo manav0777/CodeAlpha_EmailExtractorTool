@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Email Extractor</title>
+
+    <link rel="stylesheet" href="../static/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <form method="POST" enctype="multipart/form-data" id="upload-form">
+
+            <h1>
+                📧 Email Extractor Tool
+            </h1>
+
+            <p class="subtitle">
+                Upload TXT, CSV, XLSX or PDF files
+            </p>
+
+
+
+            <!-- Upload Box -->
+
+            <label for="file-input" class="upload-box">
+
+                📁 Upload Your File
+
+            </label>
+
+            <input
+                type="file"
+                id="file-input"
+                name="file"
+                hidden
+            >
+
+            <p id="file-name">
+
+                No file selected
+
+            </p>
+
+
+
+            <!-- Extract Button -->
+
+            <button
+                type="submit"
+                class="extract-btn"
+                id="extract-btn"
+            >
+
+                Extract Emails
+
+            </button>
+
+
+
+            <!-- Output Section -->
+
+            {% if emails %}
+
+            <div class="output-box">
+
+                <div class="output-header">
+
+                    <h2>Extracted Emails</h2>
+
+
+
+                    <div class="button-group">
+
+                        <button
+                            type="button"
+                            class="copy-btn"
+                            id="copy-btn"
+                        >
+
+                            Copy
+
+                        </button>
+
+
+
+                        <button
+                            type="button"
+                            class="clear-btn"
+                            id="clear-btn"
+                        >
+
+                            Clear
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <p class="total-count">
+
+                    Total: {{ emails|length }} Emails
+
+                </p>
+
+
+
+                <div class="email-list">
+
+                    {% for email in emails %}
+
+                        <p>{{ email }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+
+   <script>
+
+    const fileInput = document.getElementById("file-input");
+
+    const fileName = document.getElementById("file-name");
+
+    const form = document.getElementById("upload-form");
+
+    const extractButton = document.getElementById("extract-btn");
+
+    const uploadBox = document.querySelector(".upload-box");
+
+
+
+    // File Selected
+
+    fileInput.addEventListener("change", () => {
+
+        if(fileInput.files.length > 0){
+
+            const selectedFile = fileInput.files[0].name;
+
+            fileName.innerHTML = "✅ " + selectedFile;
+
+            uploadBox.innerHTML = `
+
+                📄 <span style="color:white;">${selectedFile}</span>
+
+            `;
+
+        }
+
+    });
+
+
+
+
+
+    // Loading Animation
+
+    form.addEventListener("submit", (event) => {
+
+        if(fileInput.files.length === 0){
+
+            alert("Please select a file first!");
+
+            event.preventDefault();
+
+            return;
+
+        }
+
+        extractButton.innerHTML = "⏳ Extracting...";
+
+        extractButton.disabled = true;
+
+        extractButton.style.opacity = "0.7";
+
+    });
+
+
+
+
+
+    // Copy Emails
+
+    const copyBtn = document.getElementById("copy-btn");
+
+    if(copyBtn){
+
+        copyBtn.addEventListener("click", () => {
+
+            const emails = document.querySelectorAll(".email-list p");
+
+            let text = "";
+
+            emails.forEach(email => {
+
+                text += email.innerText + "\n";
+
+            });
+
+            navigator.clipboard.writeText(text);
+
+            copyBtn.innerText = "Copied!";
+
+            setTimeout(() => {
+
+                copyBtn.innerText = "Copy";
+
+            }, 2000);
+
+        });
+
+    }
+
+
+
+
+
+    // Clear Output
+
+    const clearBtn = document.getElementById("clear-btn");
+
+    if(clearBtn){
+
+        clearBtn.addEventListener("click", () => {
+
+            window.location.href = "/";
+
+        });
+
+    }
+
+</script>
+
+</body>
+
+</html>
