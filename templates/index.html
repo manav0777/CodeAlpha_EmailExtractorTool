@@ -6,7 +6,7 @@
 
     <title>Email Extractor</title>
 
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
@@ -133,122 +133,8 @@
 
 
 
-   <script>
-
-    const fileInput = document.getElementById("file-input");
-
-    const fileName = document.getElementById("file-name");
-
-    const form = document.getElementById("upload-form");
-
-    const extractButton = document.getElementById("extract-btn");
-
-    const uploadBox = document.querySelector(".upload-box");
-
-
-
-    // File Selected
-
-    fileInput.addEventListener("change", () => {
-
-        if(fileInput.files.length > 0){
-
-            const selectedFile = fileInput.files[0].name;
-
-            fileName.innerHTML = "✅ " + selectedFile;
-
-            uploadBox.innerHTML = `
-
-                📄 <span style="color:white;">${selectedFile}</span>
-
-            `;
-
-        }
-
-    });
-
-
-
-
-
-    // Loading Animation
-
-    form.addEventListener("submit", (event) => {
-
-        if(fileInput.files.length === 0){
-
-            alert("Please select a file first!");
-
-            event.preventDefault();
-
-            return;
-
-        }
-
-        extractButton.innerHTML = "⏳ Extracting...";
-
-        extractButton.disabled = true;
-
-        extractButton.style.opacity = "0.7";
-
-    });
-
-
-
-
-
-    // Copy Emails
-
-    const copyBtn = document.getElementById("copy-btn");
-
-    if(copyBtn){
-
-        copyBtn.addEventListener("click", () => {
-
-            const emails = document.querySelectorAll(".email-list p");
-
-            let text = "";
-
-            emails.forEach(email => {
-
-                text += email.innerText + "\n";
-
-            });
-
-            navigator.clipboard.writeText(text);
-
-            copyBtn.innerText = "Copied!";
-
-            setTimeout(() => {
-
-                copyBtn.innerText = "Copy";
-
-            }, 2000);
-
-        });
-
-    }
-
-
-
-
-
-    // Clear Output
-
-    const clearBtn = document.getElementById("clear-btn");
-
-    if(clearBtn){
-
-        clearBtn.addEventListener("click", () => {
-
-            window.location.href = "/";
-
-        });
-
-    }
-
-</script>
-
+   
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>
