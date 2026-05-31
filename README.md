@@ -1,4 +1,3 @@
-=======
 # 📧 Email Extractor Tool
 
 A modern Flask-based Email Extractor Tool supporting TXT, CSV, XLSX, and PDF files.
@@ -32,4 +31,4 @@ A modern Flask-based Email Extractor Tool supporting TXT, CSV, XLSX, and PDF fil
 - Pandas
 - PyPDF2
 
->>>>>>> 2d9643f3804c8525f3479262022cae8cdaac1d4b
+
